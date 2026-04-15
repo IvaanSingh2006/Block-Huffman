@@ -19,7 +19,7 @@ function App() {
     formData.append("block_size", blockSize);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/compress", {
+      const res = await fetch("https://block-huffman.onrender.com/compress", {
         method: "POST",
         body: formData,
       });
@@ -53,7 +53,7 @@ function App() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/decompress", {
+      const res = await fetch("https://block-huffman.onrender.com/decompress", {
         method: "POST",
         body: formData,
       });
@@ -79,6 +79,7 @@ function App() {
     <div className="container">
       <h1>Enhanced Huffman Compressor</h1>
       <p>Only use small and simple files for compression</p>
+      <p>First compression may take time due to backend inactivity</p>
 
       <input
         type="file"
