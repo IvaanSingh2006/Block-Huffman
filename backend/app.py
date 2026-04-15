@@ -5,8 +5,7 @@ from compress import compress_file
 from decompress import decompress_file
 
 app = Flask(__name__)
-
-CORS(app, supports_credentials=True)
+CORS(app, origins=["https://ivaansingh2006.github.io"])
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
@@ -28,15 +27,13 @@ def compress():
         output_path = os.path.join(OUTPUT_FOLDER, "compressed.bin")
 
         file.save(input_path)
-
         compress_file(input_path, output_path, block_size)
 
         return send_file(output_path, as_attachment=True)
 
     except Exception as e:
-        print("ERROR:", e)   
+        print("ERROR:", e)
         return {"error": str(e)}, 500
-
 
 
 @app.route("/decompress", methods=["POST"])
@@ -50,14 +47,11 @@ def decompress():
     output_path = os.path.join(OUTPUT_FOLDER, "decompressed_output")
 
     file.save(input_path)
-
-    decompress_file(
-        input_path,
-        output_path,
-        "outputs/metadata.json"
-    )
+    decompress_file(input_path, output_path, "outputs/metadata.json")
 
     return send_file(output_path, as_attachment=True)
 
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
